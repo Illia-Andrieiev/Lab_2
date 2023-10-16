@@ -4,18 +4,16 @@
 #include "elementaryevent.h"
 #include "event.h"
 #include "event.h"
-AddElementaryEvents::AddElementaryEvents(Event &ev, QWidget *parent) :
+AddElementaryEvents::AddElementaryEvents(Event ev, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddElementaryEvents)
 {
     this->event = ev;
     ui->setupUi(this);
+    ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry()));
+    //QMessageBox::warning(this,"warning",QString::number(event.getEvents().size()));
     // Виводимо в список всі елементарні події
-    for(int i =0;i<event.getEvents().size();i++){
-        ElementaryEvent ev = event.getEvents().at(i);
-        QString name = ev.getName();
-        ui->elemEventsList->addItem(name);
-    }
+    reprintList();
 }
 
 AddElementaryEvents::~AddElementaryEvents()
@@ -59,7 +57,60 @@ void AddElementaryEvents::on_addElementaryEvent_clicked()
         }
     }else{
         ui->addProbability->setText("");
-        QMessageBox::warning(this,"warning","Ім'я кожної випадкової події має бути унікальним!");
+        QMessageBox::warning(this,"warning","Ім'я кожної елементарної події має бути унікальним!");
+    }
+}
+
+Event AddElementaryEvents::getEvent(){
+    return event;
+}
+void AddElementaryEvents::on_addEvent_clicked()
+{
+    this->close();
+}
+
+
+void AddElementaryEvents::on_elemEventsList_itemDoubleClicked(QListWidgetItem *item)
+{
+    int index = indexByName(item->text());
+    if(index == -1){
+        QMessageBox::warning(this,"warning","Обрано неможливий елемент списку!");
+        return;
+    }
+    ElementaryEvent ev = event.getEvents().at(index);
+    QMessageBox::information(this,"information","Ймовірність настання обраної елементарної події:\n"
+                                + QString::number(ev.getProbability()) );
+}
+int AddElementaryEvents::indexByName(QString name){
+    for(int i = 0;i <event.getEvents().size();i++){
+        ElementaryEvent ev = event.getEvents().at(i);
+        if(name == ev.getName())
+            return i;
+    }
+    return -1;
+}
+
+void AddElementaryEvents::on_deleteElemEvent_clicked()
+{
+    if(!ui->elemEventsList->currentItem()->isSelected()){
+        QMessageBox::critical(this,"error","Спочатку оберіть елементарну подію");
+        return;
+    }
+    int index = indexByName(ui->elemEventsList->currentItem()->text());
+    if(index == -1){
+        QMessageBox::warning(this,"warning","Обрано неможливий елемент списку!");
+        return;
+    }
+    event.remove(index);
+    reprintList();
+    ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry()));
+}
+void AddElementaryEvents::reprintList(){
+    ui->elemEventsList->clear();
+    for(int i =0;i<event.getEvents().size();i++){
+        ElementaryEvent ev = event.getEvents().at(i);
+        QString name = ev.getName();
+        ui->elemEventsList->addItem(name);
     }
 }
 

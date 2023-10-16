@@ -61,25 +61,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="addElementaryEvent">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>250</y>
-     <width>251</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Додати елементарну подію</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -163,7 +145,79 @@
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>250</y>
+     <width>268</width>
+     <height>76</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QPushButton" name="deleteElemEvent">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="locale">
+       <locale language="Ukrainian" country="Ukraine"/>
+      </property>
+      <property name="text">
+       <string>Видалити елементарну подію</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="addElementaryEvent">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Додати елементарну подію</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>addEvent</sender>
+   <signal>clicked()</signal>
+   <receiver>AddElementaryEvents</receiver>
+   <slot>exec()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>482</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>368</x>
+     <y>482</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addEvent</sender>
+   <signal>clicked()</signal>
+   <receiver>AddElementaryEvents</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>486</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>476</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

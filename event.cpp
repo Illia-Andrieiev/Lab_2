@@ -15,6 +15,12 @@ void Event::addElementaryEvent(ElementaryEvent event){
     generouseProbabiliry = newGenProb;
     events.push_back(event);
 }
+void Event::remove(int index){
+    if(index <0 || index>=events.size())
+        return;
+    generouseProbabiliry = generouseProbabiliry - events[index].getProbability();
+    events.removeAt(qsizetype(index));
+}
 QString Event::getName(){
     return name;
 }

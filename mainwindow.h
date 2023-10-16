@@ -26,7 +26,10 @@ private slots:
 
     void on_model_clicked();
 
+    void on_deleteElemEvent_clicked();
+     void reprintList();
 private:
+
     Ui::MainWindow *ui;
     QVector<Event> events;
 };

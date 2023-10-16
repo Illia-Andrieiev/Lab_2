@@ -15,6 +15,7 @@ public:
     double getGenerouseProbabiliry();
     QString getName();
     void setName(QString name);
+    void remove(int index);
     QVector<ElementaryEvent> getEvents();
     void addElementaryEvent(ElementaryEvent event);
 };
