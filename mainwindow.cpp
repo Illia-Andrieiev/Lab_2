@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include"addelementaryevents.h"
+#include "resultwindow.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "elementaryevent.h"
@@ -75,11 +76,19 @@ void MainWindow::on_model_clicked()
     }
     QString str = ui->amountModel->text();
     int amountModels;
+    int index = indexByName(ui->eventsList->currentItem()->text());
+    Event ev = events[index];
+    if(ev.getEvents().size()==0){
+        QMessageBox::critical(this,"error","Обрано порожню подію!");
+        return;
+    }
     amountModels = str.toInt();
     if(amountModels <= 0){
         QMessageBox::critical(this,"error","Введена кількість моделювань має бути додатнім цілим числом");
     }else{
-        QMessageBox::information(this,"",QString::number(amountModels));
+        ResultWindow res(ev,amountModels);
+        res.setModal(true);
+        res.exec();
     }
 }
 bool MainWindow::isContainEvent(Event ev){

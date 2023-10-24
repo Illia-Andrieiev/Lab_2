@@ -23,7 +23,6 @@ private slots:
     void on_exit_triggered();
     void on_addEvent_clicked();
     void on_eventsList_itemDoubleClicked(QListWidgetItem *item);
-
     void on_model_clicked();
 
     void on_deleteElemEvent_clicked();

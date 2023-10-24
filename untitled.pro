@@ -13,17 +13,20 @@ SOURCES += \
     elementaryevent.cpp \
     event.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    resultwindow.cpp
 
 HEADERS += \
     addelementaryevents.h \
     elementaryevent.h \
     event.h \
-    mainwindow.h
+    mainwindow.h \
+    resultwindow.h
 
 FORMS += \
     addelementaryevents.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    resultwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
