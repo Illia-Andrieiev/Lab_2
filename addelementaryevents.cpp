@@ -28,7 +28,12 @@ void AddElementaryEvents::on_addElementaryEvent_clicked()
     ui->addElemEventName->setText("");
     if(eeName.isEmpty()){
         ui->addProbability->setText("");
-        QMessageBox::warning(this,"warning","Р†Рј'СЏ РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С— РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РїРѕСЂРѕР¶РЅС–Рј!");
+        QMessageBox::warning(this,"warning","Назва елементарної події не може бути порожньою!");
+        return;
+    }
+    if(eeName.contains(';')){
+        ui->addProbability->setText("");
+        QMessageBox::warning(this,"warning","Назва елементарної події не може містити ';'!");
         return;
     }
     if(!event.isContainElemEvent(eeName)){ // РЇРєС‰Рѕ РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С— Р· С‚Р°РєРёРј С–Рј'СЏРј РЅРµ РґРѕРґР°РЅРѕ

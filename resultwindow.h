@@ -21,6 +21,9 @@ public:
     bool getIsSavekey();
     QMap<QString,int> getStatistic();
 private slots:
+    void on_saveCsv_clicked();
+
+private slots:
     void on_saveTxt_clicked();
 
 private slots:

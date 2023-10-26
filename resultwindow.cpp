@@ -61,7 +61,7 @@ ElementaryEvent ResultWindow::chooseElemEvent(){
             return choosen;
     }
     if(currentPosition < position){
-        choosen.setName("Не настала жодна з заданих подій!");
+        choosen.setName("none of entered events happened!");
         choosen.setProbability(1-currentPosition);
     }
     return choosen;
@@ -161,12 +161,12 @@ void ResultWindow::on_saveTxt_clicked()
 {
     // Перехід до потрібного імені файлу
     int i = 0;
-    while(std::filesystem::exists(event.getName().toStdString() + "/" + event.getName().toStdString()+"_"+QString::number(i).toStdString()+".txt")){
+    while(std::filesystem::exists(event.getName().toStdString()+"_"+QString::number(i).toStdString()+".txt")){
         ++i;
     }
     //Створення нового файлу з результатом
     std::ofstream file;
-    file.open(event.getName().toStdString() + "/" + event.getName().toStdString()+"_"+QString::number(i).toStdString()+".txt");
+    file.open(event.getName().toStdString()+"_"+QString::number(i).toStdString()+".txt");
     if (!file.is_open()) { // Print error if can not open
         QMessageBox::critical(this,"error","File can not be opened!");
     }
@@ -186,5 +186,33 @@ void ResultWindow::on_saveTxt_clicked()
         file<<"Подія " + maxEvent.toStdString() + " настала більше всього разів: " +
                 QString::number(statistic[maxEvent]).toStdString();
     }
+    file.close();
+}
+
+
+void ResultWindow::on_saveCsv_clicked()
+{
+    // Перехід до потрібного імені файлу
+    int i = 0;
+    while(std::filesystem::exists(event.getName().toStdString()+"_"+QString::number(i).toStdString()+".csv")){
+        ++i;
+    }
+    //Створення нового файлу з результатом
+    std::ofstream file;
+    file.open(event.getName().toStdString()+"_"+QString::number(i).toStdString()+".csv");
+    if (!file.is_open()) { // Print error if can not open
+        QMessageBox::critical(this,"error","File can not be opened!");
+    }
+    else {
+        // обрахування статистичних даних
+        QString minEvent = findMinEvent();
+        QString maxEvent = findMaxEvent();
+        file<<"event name;number of occurrences\n";
+        for(int i=0;i<statistic.size();i++){
+            file<<statistic.keys().at(i).toStdString() +';' +
+               QString::number(statistic[statistic.keys()[i]]).toStdString() + '\n';
+        }
+    }
+    file.close();
 }
 

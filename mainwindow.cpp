@@ -36,7 +36,11 @@ void MainWindow::on_exit_triggered()
 void MainWindow::on_addEvent_clicked()
 {
     if(ui->enterEventName->text().isEmpty()){
-        QMessageBox::warning(this,"warning","Р†Рј'СЏ РІРёРїР°РґРєРѕРІРѕС— РїРѕРґС–С— РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РїРѕСЂРѕР¶РЅС–Рј!");
+        QMessageBox::warning(this,"warning","Назва події не може бути порожнім!");
+        return;
+    }
+    if(ui->enterEventName->text().contains(';')){
+        QMessageBox::warning(this,"warning","Назва події не може містити ';'!");
         return;
     }
     Event event;
@@ -300,3 +304,60 @@ QString MainWindow::findMaxEvent(QMap<QString,int> summModelResult){
     }
     return curMaxName;
 }
+
+void MainWindow::on_saveCsv_clicked()
+{
+    QList<QMap<QString,int>> stat;
+    // Якщо не обрано подію, моделювання не проводиться
+    if(!ui->eventsList->currentItem()->isSelected()){
+        QMessageBox::critical(this,"error","Оберіть подію для моделювання!");
+        return;
+    }
+    // Зчитування кількості моделювань
+    QString nStr = ui->setNModelsLineEdit->text();
+    int index = indexByName(ui->eventsList->currentItem()->text());
+    Event ev = events[index];
+    // Якщо обрана подія порожня, моделювання не проводиться
+    if(ev.getEvents().size()==0){
+        QMessageBox::critical(this,"error","Обрана подія порожня!");
+        return;
+    }
+    int n = nStr.toDouble();
+    QString amountModelStr = ui->amountModel->text();
+    int amountModel = amountModelStr.toDouble();
+    if(n <= 0){// Якщо введена к-ть моделювань менше 1, моделювання не проводиться
+        QMessageBox::critical(this,"error","Кількість моделювань не може бути менше одиниці!");
+        return;
+    }else{
+        if(amountModel == 0)
+            amountModel = n;
+        stat = collectStatisticFromSimulations(ev, n, amountModel); // Збір статистики за n cимуляцій по amountModel моделювань
+    }
+    // Перехід до потрібного імені файлу
+    int i = 0;
+    while(std::filesystem::exists(ev.getName().toStdString()+"_statistic_"+QString::number(i).toStdString()+".csv")){
+        ++i;
+    }
+    //Створення нового файлу з результатом
+    std::ofstream file;
+    file.open(ev.getName().toStdString()+"_statistic_"+QString::number(i).toStdString()+".csv");
+    if (!file.is_open()) { // Print error if can not open
+        QMessageBox::critical(this,"error","File can not be opened!");
+    }
+    else {
+        // обрахування статистичних даних
+        QMap<QString,int> summModelResult = summModelResults(stat);
+        QMap<QString,double> averageModelsResult = averageModelResult(summModelResult,n);
+        QMap<QString,double> percentageModelsResult = percentageModelResult(summModelResult,n,amountModel);
+        // Вивід даних у файл
+        file<<"event name;generous number of occurrences;average number of occurrences;proportion of occurrences\n";
+        for(int i=0;i<summModelResult.size();i++){
+            QString currName = summModelResult.keys().at(i);
+            file<< currName.toStdString()+ ";" + QString::number(summModelResult[currName]).toStdString() +";"+
+                        QString::number(averageModelsResult[averageModelsResult.keys()[i]]).toStdString() +";"+
+                        QString::number(percentageModelsResult[percentageModelsResult.keys()[i]]).toStdString() +";\n";
+        }
+    }
+    file.close();
+}
+
