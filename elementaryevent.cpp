@@ -1,4 +1,3 @@
-#pragma once
 #include<QString>
 #include "elementaryevent.h"
 

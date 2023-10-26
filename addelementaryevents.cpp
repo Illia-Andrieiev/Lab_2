@@ -12,7 +12,7 @@ AddElementaryEvents::AddElementaryEvents(Event ev, QWidget *parent) :
     ui->setupUi(this);
     ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry()));
     //QMessageBox::warning(this,"warning",QString::number(event.getEvents().size()));
-    // Виводимо в список всі елементарні події
+    // Р’РёРІРѕРґРёРјРѕ РІ СЃРїРёСЃРѕРє РІСЃС– РµР»РµРјРµРЅС‚Р°СЂРЅС– РїРѕРґС–С—
     reprintList();
 }
 
@@ -23,41 +23,41 @@ AddElementaryEvents::~AddElementaryEvents()
 
 void AddElementaryEvents::on_addElementaryEvent_clicked()
 {
-    // Перевірка чи не порожнє введене ім'я
+    // РџРµСЂРµРІС–СЂРєР° С‡Рё РЅРµ РїРѕСЂРѕР¶РЅС” РІРІРµРґРµРЅРµ С–Рј'СЏ
     QString eeName = ui->addElemEventName->text();
     ui->addElemEventName->setText("");
     if(eeName.isEmpty()){
         ui->addProbability->setText("");
-        QMessageBox::warning(this,"warning","Ім'я елементарної події не може бути порожнім!");
+        QMessageBox::warning(this,"warning","Р†Рј'СЏ РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С— РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РїРѕСЂРѕР¶РЅС–Рј!");
         return;
     }
-    if(!event.isContainElemEvent(eeName)){ // Якщо елементарної події з таким ім'ям не додано
-        // Зчитуємо ймовірність елементарної події
+    if(!event.isContainElemEvent(eeName)){ // РЇРєС‰Рѕ РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С— Р· С‚Р°РєРёРј С–Рј'СЏРј РЅРµ РґРѕРґР°РЅРѕ
+        // Р—С‡РёС‚СѓС”РјРѕ Р№РјРѕРІС–СЂРЅС–СЃС‚СЊ РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С—
         QString prob = ui->addProbability->text();
         ui->addProbability->setText("");
         double probability;
         probability = prob.toDouble();
         if(probability>1){
-            QMessageBox::critical(this,"error","Введена ймовірність має бути <= 1");
+            QMessageBox::critical(this,"error","Р’РІРµРґРµРЅР° Р№РјРѕРІС–СЂРЅС–СЃС‚СЊ РјР°С” Р±СѓС‚Рё <= 1");
             return;
         }
-        // Повідомляємо про неправильні дані
+        // РџРѕРІС–РґРѕРјР»СЏС”РјРѕ РїСЂРѕ РЅРµРїСЂР°РІРёР»СЊРЅС– РґР°РЅС–
         if(probability <= 0){
-            QMessageBox::critical(this,"error","Введена ймовірність має бути додатнім числом");
+            QMessageBox::critical(this,"error","Р’РІРµРґРµРЅР° Р№РјРѕРІС–СЂРЅС–СЃС‚СЊ РјР°С” Р±СѓС‚Рё РґРѕРґР°С‚РЅС–Рј С‡РёСЃР»РѕРј");
             return;
         }
         try{
-            //Додаємо до події елементарну подію і виводимо в список
+            //Р”РѕРґР°С”РјРѕ РґРѕ РїРѕРґС–С— РµР»РµРјРµРЅС‚Р°СЂРЅСѓ РїРѕРґС–СЋ С– РІРёРІРѕРґРёРјРѕ РІ СЃРїРёСЃРѕРє
             ElementaryEvent ee(eeName,probability);
             event.addElementaryEvent(ee);
             ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry()));
             ui->elemEventsList->addItem(eeName);
-        }catch(std::out_of_range ex){ // Якщо загальна ймовірність > 1 виводимо повідомлення
-            QMessageBox::critical(this,"error", "Сумма ймовірностей не може перевищувати 1!");
+        }catch(std::out_of_range ex){ // РЇРєС‰Рѕ Р·Р°РіР°Р»СЊРЅР° Р№РјРѕРІС–СЂРЅС–СЃС‚СЊ > 1 РІРёРІРѕРґРёРјРѕ РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ
+            QMessageBox::critical(this,"error", "РЎСѓРјРјР° Р№РјРѕРІС–СЂРЅРѕСЃС‚РµР№ РЅРµ РјРѕР¶Рµ РїРµСЂРµРІРёС‰СѓРІР°С‚Рё 1!");
         }
     }else{
         ui->addProbability->setText("");
-        QMessageBox::warning(this,"warning","Ім'я кожної елементарної події має бути унікальним!");
+        QMessageBox::warning(this,"warning","Р†Рј'СЏ РєРѕР¶РЅРѕС— РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С— РјР°С” Р±СѓС‚Рё СѓРЅС–РєР°Р»СЊРЅРёРј!");
     }
 }
 
@@ -74,11 +74,11 @@ void AddElementaryEvents::on_elemEventsList_itemDoubleClicked(QListWidgetItem *i
 {
     int index = indexByName(item->text());
     if(index == -1){
-        QMessageBox::warning(this,"warning","Обрано неможливий елемент списку!");
+        QMessageBox::warning(this,"warning","РћР±СЂР°РЅРѕ РЅРµРјРѕР¶Р»РёРІРёР№ РµР»РµРјРµРЅС‚ СЃРїРёСЃРєСѓ!");
         return;
     }
     ElementaryEvent ev = event.getEvents().at(index);
-    QMessageBox::information(this,"information","Ймовірність настання обраної елементарної події:\n"
+    QMessageBox::information(this,"information","Р™РјРѕРІС–СЂРЅС–СЃС‚СЊ РЅР°СЃС‚Р°РЅРЅСЏ РѕР±СЂР°РЅРѕС— РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С—:\n"
                                 + QString::number(ev.getProbability()) );
 }
 int AddElementaryEvents::indexByName(QString name){
@@ -93,12 +93,12 @@ int AddElementaryEvents::indexByName(QString name){
 void AddElementaryEvents::on_deleteElemEvent_clicked()
 {
     if(!ui->elemEventsList->currentItem()->isSelected()){
-        QMessageBox::critical(this,"error","Спочатку оберіть елементарну подію");
+        QMessageBox::critical(this,"error","РЎРїРѕС‡Р°С‚РєСѓ РѕР±РµСЂС–С‚СЊ РµР»РµРјРµРЅС‚Р°СЂРЅСѓ РїРѕРґС–СЋ");
         return;
     }
     int index = indexByName(ui->elemEventsList->currentItem()->text());
     if(index == -1){
-        QMessageBox::warning(this,"warning","Обрано неможливий елемент списку!");
+        QMessageBox::warning(this,"warning","РћР±СЂР°РЅРѕ РЅРµРјРѕР¶Р»РёРІРёР№ РµР»РµРјРµРЅС‚ СЃРїРёСЃРєСѓ!");
         return;
     }
     event.remove(index);
