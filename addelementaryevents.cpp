@@ -11,81 +11,78 @@ AddElementaryEvents::AddElementaryEvents(Event ev, QWidget *parent) :
     this->event = ev;
     ui->setupUi(this);
     ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry()));
-    //QMessageBox::warning(this,"warning",QString::number(event.getEvents().size()));
-    // Р’РёРІРѕРґРёРјРѕ РІ СЃРїРёСЃРѕРє РІСЃС– РµР»РµРјРµРЅС‚Р°СЂРЅС– РїРѕРґС–С—
     reprintList();
 }
-
 AddElementaryEvents::~AddElementaryEvents()
 {
     delete ui;
 }
-
+// Додає елементарну подію до випадкової події
 void AddElementaryEvents::on_addElementaryEvent_clicked()
 {
-    // РџРµСЂРµРІС–СЂРєР° С‡Рё РЅРµ РїРѕСЂРѕР¶РЅС” РІРІРµРґРµРЅРµ С–Рј'СЏ
+    // Зчитується ім'я елементарної події. Якщо порожнє виходить із функції
     QString eeName = ui->addElemEventName->text();
-    ui->addElemEventName->setText("");
+    ui->addElemEventName->setText(""); // Робить lineEdit порожнім
     if(eeName.isEmpty()){
         ui->addProbability->setText("");
         QMessageBox::warning(this,"warning","Назва елементарної події не може бути порожньою!");
         return;
     }
+    // ';' є недопустимим символом. Якщо він входить у задане ім'я, завершуємо роботу
     if(eeName.contains(';')){
         ui->addProbability->setText("");
         QMessageBox::warning(this,"warning","Назва елементарної події не може містити ';'!");
         return;
     }
-    if(!event.isContainElemEvent(eeName)){ // РЇРєС‰Рѕ РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С— Р· С‚Р°РєРёРј С–Рј'СЏРј РЅРµ РґРѕРґР°РЅРѕ
-        // Р—С‡РёС‚СѓС”РјРѕ Р№РјРѕРІС–СЂРЅС–СЃС‚СЊ РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С—
+
+    if(!event.isContainElemEvent(eeName)){ // Якщо випадковій події не належить подія з заданим ім'ям, додаємо
+        // Зчитування ймовірності елементарної події
         QString prob = ui->addProbability->text();
         ui->addProbability->setText("");
-        double probability;
-        probability = prob.toDouble();
+        double probability = prob.toDouble();
+        // Якщо ймовірність > 1 виходимо з функції
         if(probability>1){
-            QMessageBox::critical(this,"error","Р’РІРµРґРµРЅР° Р№РјРѕРІС–СЂРЅС–СЃС‚СЊ РјР°С” Р±СѓС‚Рё <= 1");
+            QMessageBox::critical(this,"error","Ймовірність має бути <= 1!");
             return;
         }
-        // РџРѕРІС–РґРѕРјР»СЏС”РјРѕ РїСЂРѕ РЅРµРїСЂР°РІРёР»СЊРЅС– РґР°РЅС–
+        // Якщо ймовірність <= 0  виходимо з функції
         if(probability <= 0){
-            QMessageBox::critical(this,"error","Р’РІРµРґРµРЅР° Р№РјРѕРІС–СЂРЅС–СЃС‚СЊ РјР°С” Р±СѓС‚Рё РґРѕРґР°С‚РЅС–Рј С‡РёСЃР»РѕРј");
+            QMessageBox::critical(this,"error","Ймовірність має бути > 0!");
             return;
         }
         try{
-            //Р”РѕРґР°С”РјРѕ РґРѕ РїРѕРґС–С— РµР»РµРјРµРЅС‚Р°СЂРЅСѓ РїРѕРґС–СЋ С– РІРёРІРѕРґРёРјРѕ РІ СЃРїРёСЃРѕРє
+            // Створення елементарної події, додавання її до випадкової події та до списку елементарних подій
             ElementaryEvent ee(eeName,probability);
             event.addElementaryEvent(ee);
-            ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry()));
+            ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry())); // Зміна загальної ймовірності
             ui->elemEventsList->addItem(eeName);
-        }catch(std::out_of_range ex){ // РЇРєС‰Рѕ Р·Р°РіР°Р»СЊРЅР° Р№РјРѕРІС–СЂРЅС–СЃС‚СЊ > 1 РІРёРІРѕРґРёРјРѕ РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ
-            QMessageBox::critical(this,"error", "РЎСѓРјРјР° Р№РјРѕРІС–СЂРЅРѕСЃС‚РµР№ РЅРµ РјРѕР¶Рµ РїРµСЂРµРІРёС‰СѓРІР°С‚Рё 1!");
+        }catch(std::out_of_range ex){ // Якщо загальна ймовірність > 1
+            QMessageBox::critical(this,"error", "Сума ймовірностей елементарних подій не може перевищувати 1!");
         }
     }else{
         ui->addProbability->setText("");
-        QMessageBox::warning(this,"warning","Р†Рј'СЏ РєРѕР¶РЅРѕС— РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С— РјР°С” Р±СѓС‚Рё СѓРЅС–РєР°Р»СЊРЅРёРј!");
+        QMessageBox::warning(this,"warning","Випадковій події вже належить елементарна подія\nіз введеним ім'ям!");
     }
 }
-
-Event AddElementaryEvents::getEvent(){
-    return event;
-}
+// Закриває вікно та завершує редагування
 void AddElementaryEvents::on_addEvent_clicked()
 {
     this->close();
 }
 
-
+// Виводить інфрмацію про натиснуту елементарну подію у QMessageBox
 void AddElementaryEvents::on_elemEventsList_itemDoubleClicked(QListWidgetItem *item)
 {
     int index = indexByName(item->text());
-    if(index == -1){
-        QMessageBox::warning(this,"warning","РћР±СЂР°РЅРѕ РЅРµРјРѕР¶Р»РёРІРёР№ РµР»РµРјРµРЅС‚ СЃРїРёСЃРєСѓ!");
+    if(index == -1){ // Якщо подію не знйдено, виходимо із функції
+        QMessageBox::warning(this,"warning","Не знайдено обрану елементарну подію!");
         return;
     }
     ElementaryEvent ev = event.getEvents().at(index);
-    QMessageBox::information(this,"information","Р™РјРѕРІС–СЂРЅС–СЃС‚СЊ РЅР°СЃС‚Р°РЅРЅСЏ РѕР±СЂР°РЅРѕС— РµР»РµРјРµРЅС‚Р°СЂРЅРѕС— РїРѕРґС–С—:\n"
+    QMessageBox::information(this,"information","Ймовірніть події " + ev.getName() + ":\n"
                                 + QString::number(ev.getProbability()) );
 }
+// Повертає індекс елементарної події в випадковій події. -1 якщо не знайдено
 int AddElementaryEvents::indexByName(QString name){
     for(int i = 0;i <event.getEvents().size();i++){
         ElementaryEvent ev = event.getEvents().at(i);
@@ -94,22 +91,25 @@ int AddElementaryEvents::indexByName(QString name){
     }
     return -1;
 }
-
+// Видаляє обрану елементарну подію з випадкової події
 void AddElementaryEvents::on_deleteElemEvent_clicked()
 {
+    // Якщо не обрано елементарну подію, виходимо із функції
     if(!ui->elemEventsList->currentItem()->isSelected()){
-        QMessageBox::critical(this,"error","РЎРїРѕС‡Р°С‚РєСѓ РѕР±РµСЂС–С‚СЊ РµР»РµРјРµРЅС‚Р°СЂРЅСѓ РїРѕРґС–СЋ");
+        QMessageBox::critical(this,"error","Оберіть елементарну подію!");
         return;
     }
     int index = indexByName(ui->elemEventsList->currentItem()->text());
+    //Якщо не знайдено обрану елементарну подію, виходимо із функції
     if(index == -1){
-        QMessageBox::warning(this,"warning","РћР±СЂР°РЅРѕ РЅРµРјРѕР¶Р»РёРІРёР№ РµР»РµРјРµРЅС‚ СЃРїРёСЃРєСѓ!");
+        QMessageBox::warning(this,"warning","Не знайдено обрану елементарну подію!");
         return;
     }
-    event.remove(index);
-    reprintList();
-    ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry()));
+    event.remove(index); // Видаляємо елементарну подію
+    reprintList(); // Заново виводимо у список всі елементарні події
+    ui->generousProbability->setText(QString::number(event.getGenerouseProbabiliry()));// Перезапис суми ймовірностей
 }
+// Виводить список всіх елементарних подій переданої випадкової події при відкриті вікна
 void AddElementaryEvents::reprintList(){
     ui->elemEventsList->clear();
     for(int i =0;i<event.getEvents().size();i++){
@@ -118,4 +118,7 @@ void AddElementaryEvents::reprintList(){
         ui->elemEventsList->addItem(name);
     }
 }
-
+// Повертає відредаговану випадкову подію
+Event AddElementaryEvents::getEvent(){
+    return event;
+}

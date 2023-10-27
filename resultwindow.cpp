@@ -14,11 +14,11 @@ ResultWindow::ResultWindow(Event ev, int n, QWidget *parent) :
     this->n = n;
     event = ev;
     isSaveKey = false;
-    srand(generationKey);
+    srand(generationKey); // Встановлюємо ключ генерації
     ui->setupUi(this);
-    PrintSimulation();
-    statistic = collectStatistic();
-    printStatistic();
+    PrintSimulation(); // Проводимо симуляцію
+    statistic = collectStatistic(); // Обраховуємо статистику
+    printStatistic(); // Виводимо статистику
 }
 // Генерація із заданим ключем
 ResultWindow::ResultWindow(Event ev, int n, int generationKey, QWidget *parent) :
@@ -29,17 +29,18 @@ ResultWindow::ResultWindow(Event ev, int n, int generationKey, QWidget *parent) 
     this->generationKey = generationKey;
     event = ev;
     isSaveKey = false;
-    srand(generationKey);
+    srand(generationKey); // Встановлюємо ключ генерації
     ui->setupUi(this);
-    PrintSimulation();
-    statistic = collectStatistic();
-    printStatistic();
+    PrintSimulation(); // Проводимо симуляцію
+    statistic = collectStatistic(); // Обраховуємо статистику
+    printStatistic(); // Виводимо статистику
 }
 
 ResultWindow::~ResultWindow()
 {
     delete ui;
 }
+// Проводить симуляцію n разів та виводить у вікно.
 void ResultWindow::PrintSimulation(){
     int i=n;
     while(i>0){
@@ -49,35 +50,42 @@ void ResultWindow::PrintSimulation(){
         --i;
     }
 }
+// Випадкове обрання елементарної події, в залежності від їхніх ймовірностей.
+// Використовується геометричне означення ймовірності.
 ElementaryEvent ResultWindow::chooseElemEvent(){
+    // Випадкове обрання точки на відрізку [0;1]
     int r = rand();
     double position = static_cast<double>(r)/RAND_MAX;//RAND_MAX=32767
-    ElementaryEvent choosen("",0);
+    ElementaryEvent choosen("",0); // обрана подія
     double currentPosition = 0;
+    // Проходимось по всіх подіях, приймаючи їх ймовірності за довжини інтервалів та відповідне зміщення.
     for(int i = 0;i<event.getEvents().size();i++){
         choosen = event.getEvents().at(i);
         currentPosition += choosen.getProbability();
-        if(currentPosition >= position)
+        if(currentPosition >= position) // Якщо обрана точка потраплє в інтервал, то обираємо подію
             return choosen;
     }
+    // Якщо точка не потрапила в жоден з інтервалів,задаємо значення
     if(currentPosition < position){
         choosen.setName("none of entered events happened!");
         choosen.setProbability(1-currentPosition);
     }
     return choosen;
 }
-
+// Вивід інформації про обрану елементарну подію у QMessageBox
 void ResultWindow::on_resList_itemDoubleClicked(QListWidgetItem *item)
 {
     int index = indexByName(item->text());
-    if(index == -1){
-        QMessageBox::warning(this,"warning","РћР±СЂР°РЅРѕ РЅРµРјРѕР¶Р»РёРІРёР№ РµР»РµРјРµРЅС‚ СЃРїРёСЃРєСѓ!");
+    if(index == -1){ // Якщо не знайдено обрану елементарну подію, виходимо із функції
+        QMessageBox::warning(this,"warning","Обрану елементару подію не знайдено!");
         return;
     }
+    // Вивід інформації
     ElementaryEvent ev = event.getEvents().at(index);
-    QMessageBox::information(this,"information","РџРѕРґС–СЏ РЅР°СЃС‚Р°Р»Р° Р· Р№РјРѕРІС–СЂРЅС–СЃС‚СЋ:\n"
+    QMessageBox::information(this,"information","Ймовірніть події " + ev.getName() + ":\n"
                                 + QString::number(ev.getProbability()) );
 }
+// Повертає індекс елементарної події в випадковій події. -1 якщо не знайдено
 int  ResultWindow::indexByName(QString name){
     for(int i = 0;i <event.getEvents().size();i++){
         ElementaryEvent ev = event.getEvents().at(i);
@@ -86,7 +94,7 @@ int  ResultWindow::indexByName(QString name){
     }
     return -1;
 }
-
+// Змінює статус збереження ключа при кожному натиску на протилежний
 void ResultWindow::on_saveKey_clicked()
 {
     isSaveKey = !isSaveKey;
@@ -95,6 +103,7 @@ void ResultWindow::on_saveKey_clicked()
     else
         ui->keyStatus->setText("Ключ генерації не буде збережено");
 }
+// Виводить статистику моделювання у вікно
 void ResultWindow::printStatistic(){
     QList <QString> keys = statistic.keys();
     QString currText =  ui->statisticInformation->text();
@@ -111,18 +120,23 @@ void ResultWindow::printStatistic(){
                                         min+ ' ' + QString::number(statistic[min])+" разів");
 
 }
+// Підраховує кількість настання кожної елементарної події.
 QMap<QString,int> ResultWindow::collectStatistic(){
     QMap<QString,int> statistic;
+    // Додавання всіх елементарних подій
+    for(int i = 0;i<event.getEvents().size();i++){
+        ElementaryEvent curEv = event.getEvents().at(i);
+        QString currEventName = curEv.getName();
+        statistic.insert(currEventName,0);
+    }
+    // Підрахунок кількості входжень
     for(int i = 0;i < ui->resList->count();i++){
         QString currEventName = ui->resList->item(i)->text();
-        if(!statistic.contains(currEventName))
-            statistic.insert(currEventName,1);
-        else{
-            statistic[currEventName] = statistic[currEventName] + 1;
-        }
+        statistic[currEventName] = statistic[currEventName] + 1;
     }
     return statistic;
 }
+// Повертає ім'я елементарної події, яка настала менше всього разів
 QString ResultWindow::findMinEvent(){
     QList <QString> keys = statistic.keys();
     QString curMinName = keys.at(0);
@@ -135,6 +149,7 @@ QString ResultWindow::findMinEvent(){
     }
     return curMinName;
 }
+// Повертає ім'я елементарної події, яка настала більше всього разів
 QString ResultWindow::findMaxEvent(){
     QList <QString> keys = statistic.keys();
     QString curMaxName = keys.at(0);
@@ -147,12 +162,15 @@ QString ResultWindow::findMaxEvent(){
     }
     return curMaxName;
 }
+// Повертає ключ генерації
 int ResultWindow::getGenerationKey(){
     return generationKey;
 }
+// Повертає чи потрібно зберігати ключ генерації
 bool ResultWindow::getIsSavekey(){
     return isSaveKey;
 }
+// Повертає QMap зі статистикою проведеного моделювання
 QMap<QString,int> ResultWindow::getStatistic(){
     return statistic;
 }
@@ -174,7 +192,7 @@ void ResultWindow::on_saveTxt_clicked()
         // обрахування статистичних даних
         QString minEvent = findMinEvent();
         QString maxEvent = findMaxEvent();
-        // Вивід даних у файл
+        // Запис даних у файл
         file<<"Назва модельованої події: "<<event.getName().toStdString()<<'\n';
         file<<"Моделювання було проведено "<<n<<" разів.\n";
         for(int i=0;i<statistic.size();i++){
@@ -189,7 +207,7 @@ void ResultWindow::on_saveTxt_clicked()
     file.close();
 }
 
-
+// Зберігає результати моделювання у файлі формату csv
 void ResultWindow::on_saveCsv_clicked()
 {
     // Перехід до потрібного імені файлу
@@ -204,9 +222,7 @@ void ResultWindow::on_saveCsv_clicked()
         QMessageBox::critical(this,"error","File can not be opened!");
     }
     else {
-        // обрахування статистичних даних
-        QString minEvent = findMinEvent();
-        QString maxEvent = findMaxEvent();
+        // Запис результатів у файл
         file<<"event name;number of occurrences\n";
         for(int i=0;i<statistic.size();i++){
             file<<statistic.keys().at(i).toStdString() +';' +

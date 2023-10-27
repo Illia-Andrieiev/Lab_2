@@ -19,6 +19,9 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_action_triggered();
+
+private slots:
     void on_saveCsv_clicked();
 
 private slots:
