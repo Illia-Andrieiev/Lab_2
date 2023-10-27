@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1023</width>
-    <height>613</height>
+    <width>949</width>
+    <height>607</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,305 +17,225 @@
    <locale language="Ukrainian" country="Ukraine"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>381</width>
-      <height>561</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLabel" name="listName">
-       <property name="font">
-        <font>
-         <pointsize>16</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Задані події</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="eventsList"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="addEvent">
-       <property name="font">
-        <font>
-         <pointsize>13</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Додати випадкову подію</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>10</y>
-      <width>319</width>
-      <height>64</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2"/>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>500</y>
-      <width>321</width>
-      <height>58</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QLabel" name="eventName">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="text">
-        <string>Ім'я випадкової події:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="enterEventName"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>100</y>
-      <width>321</width>
-      <height>76</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_4"/>
-   </widget>
-   <widget class="QLabel" name="enterKeyLabel">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>190</y>
-      <width>321</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Задати ключ генерації:</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="enterGenerationKey">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>220</y>
-      <width>321</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="generationKeysList">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>260</y>
-      <width>321</width>
-      <height>161</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="saveTxt">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>230</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>формату txt</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="amountModel">
-    <property name="geometry">
-     <rect>
-      <x>391</x>
-      <y>45</y>
-      <width>317</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-   </widget>
-   <widget class="QLabel" name="amountName">
-    <property name="geometry">
-     <rect>
-      <x>391</x>
-      <y>11</y>
-      <width>317</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>15</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Кількість проведених моделювань</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="deleteElemEvent">
-    <property name="geometry">
-     <rect>
-      <x>391</x>
-      <y>141</y>
-      <width>319</width>
-      <height>34</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="locale">
-     <locale language="Ukrainian" country="Ukraine"/>
-    </property>
-    <property name="text">
-     <string>Видалити випадкову подію</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="model">
-    <property name="geometry">
-     <rect>
-      <x>391</x>
-      <y>101</y>
-      <width>319</width>
-      <height>34</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Провести моделювання</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="setNModelsLineEdit">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>90</y>
-      <width>251</width>
-      <height>24</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="nModelsLabel">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>160</y>
-      <width>301</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Зібрати статистику за n 
+   <layout class="QGridLayout" name="gridLayout_7">
+    <item row="1" column="2">
+     <widget class="QLabel" name="emptyLabel">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="setNModelsLabel">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Задати кількість симуляцій</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="setNModelsLineEdit"/>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="0" rowspan="4">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="listName">
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Задані події</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QListWidget" name="eventsList"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="addEvent">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Додати випадкову подію</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1" rowspan="4">
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="amountName">
+          <property name="font">
+           <font>
+            <pointsize>15</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Кількість проведених моделювань</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="amountModel">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QPushButton" name="deleteElemEvent">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="locale">
+           <locale language="Ukrainian" country="Ukraine"/>
+          </property>
+          <property name="text">
+           <string>Видалити випадкову подію</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="model">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Провести моделювання</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QLabel" name="enterKeyLabel">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Задати ключ генерації:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="enterGenerationKey"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QListWidget" name="generationKeysList"/>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="eventName">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Ім'я випадкової події:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="enterEventName"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="2">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="nModelsLabel">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Зібрати статистику за n 
 симуляцій та зберегти у файл</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="setNModelsLabel">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>40</y>
-      <width>281</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Задати кількість симуляцій</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="saveCsv">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>230</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>формату csv</string>
-    </property>
-   </widget>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="saveTxt">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>формату txt</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="saveCsv">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>формату csv</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -323,7 +243,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1023</width>
+     <width>949</width>
      <height>21</height>
     </rect>
    </property>
